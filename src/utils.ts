@@ -1,4 +1,4 @@
-function hasPermission(user, permissionsNeeded) {
+const hasPermission = (user: { permissions: [any] }, permissionsNeeded: Array<any>) => {
   const matchedPermissions = user.permissions.filter(permissionTheyHave =>
     permissionsNeeded.includes(permissionTheyHave)
   );
