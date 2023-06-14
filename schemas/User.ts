@@ -10,5 +10,13 @@ export const User = list({
         email: text({ isIndexed: "unique" }),
         password: password(),
         // add roles, cart and orders
+        cart: relationship({
+            ref: "CartItem.user",
+            many: true,
+            ui: {
+                createView: { fieldMode: "hidden" },
+                itemView: { fieldMode: "read" },
+            },
+        }),
     },
 });
