@@ -2,7 +2,7 @@ import { list } from "@keystone-6/core";
 import { text, select, integer, relationship } from "@keystone-6/core/fields";
 import { allowAll } from '@keystone-6/core/access';
 
-export const Product = list({
+export const OrderItem = list({
     access: allowAll,
     //ui
     fields: {
@@ -13,7 +13,7 @@ export const Product = list({
             },
         }),
         photo: relationship({
-            ref: "ProductImage.product",
+            ref: "ProductImage",
             ui: {
                 displayMode: "cards",
                 cardFields: ["image", "altText"],
@@ -21,18 +21,8 @@ export const Product = list({
                 inlineEdit: { fields: ["image", "altText"] },
             }
         }),
-        status: select({
-            options: [
-                { label: "Draft", value: "DRAFT" },
-                { label: "Available", value: "AVAILABLE" },
-                { label: "Unavailable", value: "UNAVAILABLE" },
-            ],
-            defaultValue: "DRAFT",
-            ui: {
-                displayMode: "segmented-control",
-                createView: { fieldMode: "hidden" },
-            },
-        }),
-        price: integer({ validation: { isRequired: true } }),
+        price: integer(),
+        quantity: integer(),
+        order: relationship({ ref: "Order.items" }),
     },
 });

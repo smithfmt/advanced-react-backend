@@ -1,15 +1,7 @@
-import { graphql } from "@keystone-6/core";
 import addToCart from "./addToCart";
 import { GraphQLSchema } from "graphql";
 import { mergeSchemas } from '@graphql-tools/schema';
-
-// const extendGraphqlSchema = graphql.extend(base => {
-//     return {
-//         mutation: {
-//             addToCart: addToCart(base),
-//         },
-//     };
-// });
+import checkout from "./checkout";
 
 const extendGraphqlSchema = (schema: GraphQLSchema) => {
     return mergeSchemas({
@@ -17,18 +9,16 @@ const extendGraphqlSchema = (schema: GraphQLSchema) => {
         typeDefs: `
             type Mutation {
                 addToCart(productId: ID!): CartItem
+                checkout(token: String!): Order
             }
         `,
         resolvers: {
             Mutation: {
-                addToCart: (root, { productId }, context) => {
-                    const { session, query } = context;
-                    console.log({ session, productId, query });
-                    return { msg: "hi" };
-                }
-            }
-        }
-    })
+                addToCart,
+                checkout,
+            },
+        },
+    });
 };
 
 export default extendGraphqlSchema;
